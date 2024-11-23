@@ -20,6 +20,7 @@ import {
 } from "../components/Dialog";
 import { ErrorMessage, Field, Label } from "../components/Fieldset";
 import { Input } from "../components/Input";
+import { Avatar } from "../components/Avatar";
 
 // interface StockData {
 //   Close: number;
@@ -393,7 +394,17 @@ export default function Stock() {
             "my-1 mx-1 w-full max-w-80 min-w-fit border border-zinc-950/10 dark:border-white/10 ring-zinc-950/10 dark:ring-white/10 rounded-lg"
           }
         >
-          <p className="font-semibold p-3">{stockInfo.symbol}</p>
+          <div className="flex w-full min-w-fit items-center px-2">
+            <Avatar
+              square
+              className="size-6 outline-transparent"
+              src={`https://logo.clearbit.com/${stockInfo.website}`}
+              alt={stockInfo.website}
+            />
+            <p className="w-full block font-semibold p-3 truncate">
+              {stockInfo.symbol}
+            </p>
+          </div>
           <Divider />
           <div className="p-3">
             <Text className="block mb-2">

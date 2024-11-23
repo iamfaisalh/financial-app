@@ -1,4 +1,4 @@
-# SellScaleHood
+# Financial App
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@
 
 ### Backend setup
 
-Make sure Postgres is set up, and create a database for this application (e.g SellScaleHoodDB)
+Make sure Postgres is set up, and create a database for this application (e.g FinancialAppDB)
 
 #### Create a virtual environment:
 
@@ -44,7 +44,7 @@ ALLOWED_ORIGINS="http://localhost:3000"
 
 For `DATABASE_URL` make sure to replace `username` with your postgres user, `password` with your postgres password, `host` with your database's host, `port` with the port at which postgres is running, and `database_name` with the name of the database you created
 
-For example: `"postgresql+psycopg2://postgres:Faisal17205@localhost:5432/SellScaleHoodDB"`
+For example: `"postgresql+psycopg2://postgres:Faisal1234@localhost:5432/FinancialAppDB"`
 
 After you have your `.env` file set up, just to be safe, deactivate the virtual environment and reactivate it to assure your virtual environment has no issues
 
@@ -58,9 +58,10 @@ source venv/bin/activate # On Windows: venv\Scripts\activate
 IMPORTANT NOTE!!:
 
 After `flask db init`, if it asks you something like `Please edit configuration/connection/logging settings in '/path/to/financial-app-main/backend/migrations/alembic.ini' before proceeding.`, do the following:
-  - Open the alembic.ini file `nano migrations/alembic.ini` and paste your database url (the one you added in the `.env` file)
-  - It should look like `sqlalchemy.url = postgresql+psycopg2://postgres:Faisal17205@localhost:5432/SellScaleHoodDB`
-  - Then proceed with the migrate and upgrade commands
+
+- Open the alembic.ini file `nano migrations/alembic.ini` and paste your database url (the one you added in the `.env` file)
+- It should look like `sqlalchemy.url = postgresql+psycopg2://postgres:Faisal1234@localhost:5432/FinancialAppDB`
+- Then proceed with the migrate and upgrade commands
 
 ```bash
 flask db init
@@ -111,5 +112,3 @@ yfinance does not provide some type of webhook feature, so we can't update stock
 Another limitation is that we would need to connect to implement a real, secure payment system to validate transactions for buying and selling stock shares, and being able to check your account balance or adding funds. This is a significant improvement that would give our application a professional feel.
 
 Other features I would like to add are a Dashboard page where users can see some of their most recently bought shares, or even their most successful stock tickers. Additionally, we could give them suggestions as to which stock tickers they should buy shares for, and even provide thorough insights and analytics using their transaction history.
-
-Overall, this project was very fun and I was able to learn a lot about stocks that I did not know before because I have never gotten into investing. Although I am submitting this project, I will continue to work on it and implement more features!

@@ -171,7 +171,7 @@ export default function SignUp() {
             </FieldGroup>
           </Fieldset>
         </form>
-        <Text className="mt-10 text-center">
+        <Text className="mt-4 inline-block text-center">
           Already have an account?{" "}
           <Link
             to={"/login"}

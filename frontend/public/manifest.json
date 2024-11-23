@@ -1,6 +1,6 @@
 {
-  "short_name": "SellScaleHood",
-  "name": "SellScaleHood Financial App",
+  "short_name": "Financial App",
+  "name": "Financial App",
   "icons": [],
   "start_url": ".",
   "display": "standalone",

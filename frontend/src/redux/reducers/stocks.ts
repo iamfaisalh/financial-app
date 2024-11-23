@@ -20,6 +20,7 @@ export interface UserStock {
   stock_id: string;
   quantity: number;
   stock: StockData;
+  website: string;
 }
 
 export interface Transaction {

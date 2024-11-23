@@ -3,6 +3,7 @@ import api from "../api";
 import { Divider } from "../components/Divider";
 import { Text } from "../components/Text";
 import { Link } from "../components/Link";
+import { Avatar } from "../components/Avatar";
 import { Transaction, UserStock } from "../redux/reducers/stocks";
 import {
   Table,
@@ -18,6 +19,8 @@ import {
   PaginationPrevious,
 } from "../components/Pagination";
 import { formatMoney } from "../util/functions";
+import { Button } from "../components/Button";
+import { Dialog, DialogBody, DialogTitle } from "../components/Dialog";
 
 interface PaginationState {
   transactions: Transaction[];
@@ -49,6 +52,8 @@ export default function Portfolio() {
     initialPaginationState
   );
   const [nextPage, setNextPage] = useState<number>(1);
+  const [dialogIsOpen, setDialogIsOpen] = useState<boolean>(false);
+  const [analysis, setAnalysis] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -64,6 +69,16 @@ export default function Portfolio() {
 
     fetchPortfolio();
   }, []);
+
+  const handlePortfolioAnalysis = async () => {
+    try {
+      const response = await api.get("/users/me/portfolio/analyze");
+      setAnalysis(response.data.analysis);
+      setDialogIsOpen(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => setTransactionsLoading(true), [nextPage]);
 
@@ -87,7 +102,28 @@ export default function Portfolio() {
 
   return (
     <div>
-      <p className="text-xl font-bold">Your Stocks</p>
+      <div className="flex min-w-fit items-center gap-3">
+        <p className="text-xl font-bold">Your Stocks</p>{" "}
+        {portfolio.length > 0 && (
+          <Button className="ml-auto" onClick={handlePortfolioAnalysis}>Analyze Portfolio</Button>
+        )}
+      </div>
+      <Dialog
+        open={dialogIsOpen}
+        onClose={(value) => {
+          setAnalysis([]);
+          setDialogIsOpen(value);
+        }}
+      >
+        <DialogTitle>Portfolio Analysis</DialogTitle>
+        <DialogBody>
+          {analysis.map((a, i) => (
+            <div className="mb-1" key={`analysis-${i}`}>
+              {a}
+            </div>
+          ))}
+        </DialogBody>
+      </Dialog>
       <div className="flex flex-wrap gap-3 items-center my-2 p-2">
         {!portfolioLoading &&
           (portfolioError ? (
@@ -107,9 +143,17 @@ export default function Portfolio() {
                   "w-full max-w-52 min-w-fit border border-zinc-950/10 dark:border-white/10 ring-zinc-950/10 dark:ring-white/10 rounded-lg"
                 }
               >
-                <p className="w-full block font-semibold p-3 truncate">
-                  {userStock.stock.company_name}
-                </p>
+                <div className="flex w-full min-w-fit items-center px-2">
+                  <Avatar
+                    square
+                    className="size-6 outline-transparent"
+                    src={`https://logo.clearbit.com/${userStock.website}`}
+                    alt={userStock.website}
+                  />
+                  <p className="w-full block font-semibold p-3 truncate">
+                    {userStock.stock.company_name}
+                  </p>
+                </div>
                 <Divider />
                 <div className="p-3 w-full">
                   <Text>
@@ -176,7 +220,7 @@ export default function Portfolio() {
                 </TableBody>
               </Table>
               {paginationState.total_transactions &&
-                paginationState.total_transactions > 0 && (
+                paginationState.total_transactions > 10 && (
                   <Pagination className="mt-6">
                     <PaginationPrevious
                       hasPrevious={paginationState.has_prev}

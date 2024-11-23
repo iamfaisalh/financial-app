@@ -144,7 +144,7 @@ export default function Login() {
             </FieldGroup>
           </Fieldset>
         </form>
-        <Text className="mt-10 text-center">
+        <Text className="mt-4 inline-block text-center">
           Don't have an account yet?{" "}
           <Link
             to={"/signup"}
